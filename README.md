@@ -335,18 +335,19 @@ frontend/
 - **XSS**: Cross-site scripting prevention
 - **SQL Injection**: Parameterized queries
 
-## Testing
+## Testing (Planned)
 
-### Backend Tests
-- **Unit Tests**: JUnit 5 for service layer testing
-- **Integration Tests**: Spring Boot Test for API testing
-- **Repository Tests**: Spring Data JPA testing
-- **Security Tests**: Authentication and authorization testing
+Testing is planned for future iterations of the project.
 
-### Frontend Tests
-- **Component Tests**: React Testing Library
-- **Integration Tests**: API integration testing
-- **End-to-end Tests**: Cypress (planned)
+### Backend
+- Unit testing using JUnit 5
+- Integration testing using Spring Boot Test
+- Repository layer testing using Spring Data JPA
+
+### Frontend
+- Component testing using React Testing Library
+- End-to-end testing using Cypress
+
 
 ### Running Tests
 ```bash
