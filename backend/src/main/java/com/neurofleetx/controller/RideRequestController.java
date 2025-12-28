@@ -2,17 +2,20 @@ package com.neurofleetx.controller;
 
 import com.neurofleetx.dto.RideRequestDTO;
 import com.neurofleetx.model.RideRequest;
+import com.neurofleetx.model.User;
 import com.neurofleetx.service.MapperService;
 import com.neurofleetx.service.RideRequestService;
+import com.neurofleetx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rides")
-@CrossOrigin(origins = "*")
 public class RideRequestController {
     
     @Autowired
@@ -21,9 +24,32 @@ public class RideRequestController {
     @Autowired
     private MapperService mapperService;
     
+    @Autowired
+    private UserService userService;
+    
     @GetMapping
     public ResponseEntity<List<RideRequestDTO>> getAllRideRequests() {
-        List<RideRequest> rideRequests = rideRequestService.getAllRideRequests();
+        List<RideRequest> rideRequests = rideRequestService.getAllRides();
+        List<RideRequestDTO> rideRequestDTOs = rideRequests.stream()
+                .map(mapperService::toRideRequestDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(rideRequestDTOs);
+    }
+    
+    @GetMapping("/unassigned")
+    public ResponseEntity<List<RideRequestDTO>> getUnassignedRideRequests() {
+        List<RideRequest> rideRequests = rideRequestService.getUnassignedRides();
+        List<RideRequestDTO> rideRequestDTOs = rideRequests.stream()
+                .map(mapperService::toRideRequestDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(rideRequestDTOs);
+    }
+    
+    @GetMapping("/unassigned-for-driver")
+    public ResponseEntity<List<RideRequestDTO>> getUnassignedRideRequestsForDriver(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+        List<RideRequest> rideRequests = rideRequestService.getUnassignedRidesForDriver(user);
         List<RideRequestDTO> rideRequestDTOs = rideRequests.stream()
                 .map(mapperService::toRideRequestDTO)
                 .collect(Collectors.toList());
