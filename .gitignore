@@ -36,3 +36,16 @@ tmp/
 backend/src/main/resources/
 
 *.sql
+
+# Block documents everywhere
+*.pdf
+*.ppt
+*.pptx
+*.docx
+
+# Allow documents ONLY inside Documentations
+!Documentations/
+!Documentations/**/*.pdf
+!Documentations/**/*.ppt
+!Documentations/**/*.pptx
+!Documentations/**/*.docx
